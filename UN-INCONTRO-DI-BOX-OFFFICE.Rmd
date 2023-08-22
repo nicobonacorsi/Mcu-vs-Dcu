@@ -1,0 +1,2526 @@
+---
+title: <span style="color:#800000">**UN INCONTRO DI BOX OFFICE**</span>
+author: "*Nicolò Bonacorsi*"
+date: '2022-05-17'
+output: html_document
+---
+
+<body style="background-color:#B9D3EE	;">
+<style>
+    body { background-color: 	#B9D3EE	; }
+   
+</style>
+
+```{css echo = FALSE}
+blockquote{
+background-color: rgb(165,130,200);
+}
+```
+
+
+
+<br>
+
+## <span style="color:#551A8B"> Introduzione e specifica sulle variabili </span>
+
+
+>**Premessa: ogni dato statistico presente nelle seguenti pagine è stato calcolato tramite il supporto di RStudio**
+
+#### **Nel seguente report analizzeremo i dati provenienti da un dataset statistico caricato sul sito https://www.kaggle.com/datasets al seguente indirizzo https://www.kaggle.com/datasets/leonardopena/marvel-vs-dc . Si tratta di un dataset relativo al confonto su vari livelli dei film millennial di Marvel e DCU, due delle case cinematografiche fondamentali nell'universo **film HERO**.**
+
+#### **La quasi totalità dei dati è stata estrapolata dal sito https://www.imdb.com/  , un database online di informazioni relative a film ed in generis al mondo cinematografico.** 
+
+#### **E’ stato però necessario diversificare le fonti, per quanto riguarda una delle variabili analizzate, andandone a reperire i dati sul sito https://www.metacritic.com/  che trasforma ogni recensione riguardante un determinato film (sia quelle scritte da critici specializzati che da comuni utenti privati) in un punteggio numerico, andandone ,successivamente, a calcolare la media ponderata.**
+
+
+#### **Cercheremo , quindi, tramite strumenti matematici, statistici ed il supporto informatico, di sintetizzare al meglio i dati relativi a più variabili e più unità statistiche, in modo da aver una visione più rigorosa e informativa dell’insieme.** 
+
+<br>
+
+## <span style="color:#551A8B"> Nome dataset originale, nome dataset nuovo e nomi script di R </span>
+
+<br>
+
+### <span style="color:white"> **Nome dataset originale:** </span>
+
+> **db.csv**
+
+<br>
+
+### <span style="color:white"> **Nome dataset nuovo:** </span> 
+
+>**MCU_vs_DCU.df**
+
+<br>
+
+### <span style="color:white"> **Nomi script:** </span>
+
+<br>
+
+>MCU_vs_DCU_df_1
+
+<br>
+
+>Var_Original_Title_2
+
+<br>
+
+>Var_Company
+
+<br>
+
+>Var_Film_rate_IMDB_4
+
+<br>
+
+>Var_film_Metascore_5
+
+<br>
+
+>Var_Minutes_6
+
+<br>
+
+>Var_date_release_7
+
+<br>
+
+>Var_Film_Budget_8
+
+<br>
+
+>Var_Opening_weekend_USA_9
+
+<br>
+
+>Var_Gross_USA_10
+
+<br>
+
+>Var_Gross_World_11
+
+<br>
+
+# <span style="color:#551A8B"> Presentazione delle variabili </span>
+
+<br>
+
+#### Il dataset è composto da 10 variabili di cui 2 qualitative e 8 quantitative:
+
+<br>
+
+#### *Original Title: la variabile, di tipo qualitativo, è stata codificata con* 
+
+> Original.Title
+
+#### ed indica il titolo originale del film X.
+
+<br>
+
+
+#### *Company : la variabile, di tipo qualitativo, è stata codificata con*
+
+> Company
+
+#### ed indica la casa cinematografica di appartenenza del film X.
+
+<br>
+
+#### *Rate: la variabile,di tipo quantitativo, è stata codificata con* 
+
+> Film.Rate.IMDB
+
+
+#### ed indica il voto attribuito al film X da IMDB (in decimi).
+
+<br>
+
+#### *Metascore: la variabile, di tipo quantitativo, è stata codificata con*
+
+>Film.Rate.Metascore
+
+#### ed indica il voto attribuito al film X da Metascore (in centesimi).
+
+<br>
+
+#### *Minutes: la variabile, di tipo quantitativo, è stata codificata con*
+
+> Film.minutes
+
+#### ed indica la durata i minuti del film X.
+
+<br>
+
+#### *Release: la variabile, di tipo quantitativo, è stata codificata con*
+
+> date.release
+
+#### ed indica l'anno di uscita nelle sale cinematografiche del film X.
+
+<br>
+
+#### *Budget : la variabile,di tipo quantitativo, è stata codificata con*
+
+> Budget
+
+#### ed indica il budget stanziato dalla casa cinematografica Y per produrre il film X.
+
+<br>
+
+#### *Opening.Weekend.USA: la variabile, di tipo quantitativo, è stata codificata con*
+
+> Opening.Weekend.USA
+
+#### ed indica il profitto realizzato nel primo weekend di uscita nelle sale USA dal film X.
+
+<br>
+
+#### *Gross.USA: la variabile, di tipo quantitativo, è stata codificata con* 
+
+> Gross.USA
+
+#### ed indica i ricavi del film X meno i costi per realizzarlo  ,al lordo delle tasse statali , negli USA.
+
+<br>
+
+#### *Gross.Worldwide: la variabile, di tipo quantitativo,è stata codificata con*
+
+> Gross.World
+
+#### ed indica i ricavi del film X meno i costi per realizzarlo ,al lordo delle tasse statali ,nel mondo.
+
+<br>
+
+# <span style="color:#551A8B"> Analisi marginali e congiunte </span>
+
+<br>
+
+
+
+
+>##  **VARIABILE ORIGINAL.TITLE**
+
+```{r,comment=NA,echo=FALSE}
+load("df_mcu_vs_dcu.RData")
+
+MCU_vs_DCU.df[,2]
+Original.Title=MCU_vs_DCU.df[,2]
+
+str(Original.Title)
+```
+
+<br>
+
+#### *Noto quindi che le osservazioni sono 39.*
+
+<br>
+
+>## **VARIABILE COMPANY**
+
+```{r,comment=NA,echo=FALSE}
+#2. variabile 2 nella terza colonna
+MCU_vs_DCU.df[,3]                         
+Company=MCU_vs_DCU.df[,3] 
+str(Company)                               
+
+```
+
+<br>
+
+#### *La variabile Company presenta,quindi, 2 modalità, come ci aspettavamo dalla natura del dataset scaricato*
+
+<br>
+
+>### <span style="color:white">*Creo , quindi, un grafico a barre che mi permetta di capire sul totale delle osservazioni qual è la probabilità che pescando un film X, casualmente , esso sia stato prodotto da Marvel o da DC.*</span>
+
+```{r,echo=FALSE,comment=NA}
+#2.1 creo grafico a barre 
+
+Frequenze.assolute.company=table(MCU_vs_DCU.df$Company)
+percentuali=round(prop.table(Frequenze.assolute.company)*100,digits=1)
+names(percentuali)
+etichette=paste(names(percentuali),percentuali)
+etichette=paste(etichette,"%",sep="")
+colori=c("#666633","red")
+barplot.company=barplot(percentuali,names.arg = etichette,main="Companies Barplot",col= colori ,horiz=TRUE,xlab="Incidenza sul totale")
+
+
+#categorizzo in base alla company di appartenenza
+Original.Title.Marvel=Original.Title[Company=="Marvel"]
+Original.Title.DC=Original.Title[Company=="DC"]
+
+```
+
+
+<br>
+
+>## **VARIABILE FILM.RATE.IMDB**
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della generica variabile Film.Rate.IMDB per dedurre il range di valori che assume*</span>
+
+```{r,comment=NA}
+# variabile nella quarta colonna
+
+MCU_vs_DCU.df[,4]
+Film.Rate.IMDB=MCU_vs_DCU.df[,4]
+
+#3.1 summary
+summary(Film.Rate.IMDB) 
+
+
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della generica variabile Film.Rate.IMDB categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+Company.and.Rate=MCU_vs_DCU.df[,3:4]
+Film.Rate.Marvel.IMDB=Company.and.Rate$Rate[Company==c("Marvel")]
+Film.Rate.DC.IMDB=Company.and.Rate$Rate[Company==c("DC")]
+summary(Film.Rate.Marvel.IMDB)
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+Film.Rate.DC.IMDB=Company.and.Rate$Rate[Company==c("DC")]
+summary(Film.Rate.DC.IMDB)
+
+```
+
+
+
+<br>
+
+>### <span style="color:white"> *Creiamo ,quindi, boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione della variabile Film.Rate.IMDB generica e di quella dei voti IMDB relativamente ai film Marvel DC.* </span>
+
+```{r,echo=FALSE}
+#3.2 boxplot variabile Film.Rate.ImDB
+
+boxplot.Film.Rate.IMDB=boxplot(Film.Rate.IMDB,col="#CC33FF",col.main= "#CC33FF",main="Boxplot of films rate ")
+
+#3.3.a istogramma variabile Film.Rate.Imbd
+istogramma.Film.Rate.IMDB=hist(Film.Rate.IMDB,probability=TRUE,col="#CC33FF",col.main="#CC33FF",breaks=15,main="Histogram of films rate")
+abline(v = median(Film.Rate.IMDB),lwd = 2)
+#3.3.b affianco boxplot e istogramma Film.Rate.IMBD
+par(mfrow=c(1,2))
+boxplot.Film.Rate.IMDB=boxplot(Film.Rate.IMDB,col="#CC33FF",col.main= "#CC33FF",main="Boxplot of films rate ")
+istogramma.Film.Rate.IMDB=hist(Film.Rate.IMDB,probability=TRUE,col="#CC33FF",col.main="#CC33FF",breaks=15,main="Histogram of films rate")
+
+par(mfrow=c(1,1))
+#3.3boxplot.Film.Rate.Marvel.IMDB
+boxplot.Film.Rate.Marvel.IMDB=boxplot(Film.Rate.Marvel.IMDB,col="red",main="Boxplot of Marvel rate",col.main="red")
+
+#3.4.A istogramma Film.Rate.Marvel.IMDB
+istogramma.Film.Rate.Marvel.IMDB=hist(Film.Rate.Marvel.IMDB,probability=TRUE,breaks=15,col="red",col.main="red",main="Histogram of Marvel rate")
+abline(v = median(Film.Rate.Marvel.IMDB),lwd = 2)
+#3.4.B affianco boxplot e istogramma Film.Rate.Marvel.IMDB
+par(mfrow=c(1,2))
+boxplot.Film.Rate.Marvel.IMDB=boxplot(Film.Rate.Marvel.IMDB,col="red",col.main= "red",main="Boxplot of Marvel Rate ")
+istogramma.Film.Rate.Marvel.IMDB=hist(Film.Rate.Marvel.IMDB,probability=TRUE,col="red",col.main="red",breaks=7,main="Histogram of Marvel Rate")
+
+par(mfrow=c(1,1))
+
+
+#3.5 boxplot Film.Rate DC.IMDB
+
+boxplot.Film.Rate.DC.IMDB=boxplot(Film.Rate.DC.IMDB,col="#666633",col.main="#666633",main="Boxplot of DC rate")
+
+
+#3.5.A istogramma Film.Rate.DC.IMDB
+istogramma.Film.Rate.DC.IMDB=hist(Film.Rate.DC.IMDB,probability=TRUE,breaks=15,col="#666633",col.main="#666633",main="Histogram of DC films rate")
+abline(v = median(Film.Rate.DC.IMDB),lwd = 2)
+#3.4.b affianco boxplot e istogramma DI DC
+par(mfrow=c(1,2))
+boxplot.Film.Rate.DC.IMDB=boxplot(Film.Rate.DC.IMDB,col="#666633",col.main= "#666633",main="Boxplot of DC rate ")
+istogramma.Film.Rate.DC.IMDB=hist(Film.Rate.DC.IMDB,probability=TRUE,col="#666633",col.main="#666633",breaks=10,main="Histogram of DC rate")
+
+par(mfrow=c(1,1))
+
+```
+
+ <br>
+ 
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot del Film.Rate.IMBD di Marvel e DC, in modo da valutare la distribuzione avendo come riferimento la stessa scala*</span>
+
+```{r,echo=FALSE,comment=NA}
+
+tapply(Film.Rate.IMDB,Company,summary)
+
+boxplot.Film.Rate.Marvel.IMDB.vs.Dc.IMDB=boxplot(Film.Rate.IMDB~Company,outline=FALSE,col=c("#666633","red"))
+
+```
+
+<br>
+
+#### *Noto che le osservazioni della variabile Film.Rate.IMDB si distribuiscono in maniera nettamente differente:*
+<br>
+
+#### -I minimi ed i massimi dei due boxplot presentano disguaglianza soprattutto sui minimi: 
+
+>Il voto del film Marvel che ha ottenuto punteggio minimo è nettamente maggiore di quello ottenuto dal film DC. Il film Marvel che ottenuto punteggio maggiore ha ,però, ottenuto una valutazione minore rispetto a quello DC.
+
+
+#### -Le due mediane differiscono, anche se di poco:
+
+>I film Marvel hanno come voto mediano un voto più alto rispetto a quelli DC
+
+
+#### -Il primo quartile presenta una netta disparità:
+
+>Le osservazioni dei voti per i film Marvel sono piu' concentrate attorno alla mediana rispetto a quelle DC
+
+#### -Entrambe le scatole dei boxplot sono distribuite in maniera asimmetrica. Quella piu evidente è quella dei film DC
+
+>I voti dei film Marvel hanno una distribuzione maggiormente simmetrica e uniforme rispetto a quelli DC
+
+<br>
+
+>### <span style="color:white"> *Creo un istorgamma che metta in relazione la variabile Film.Rate.IMDB e la variabile Company*</span>
+
+```{r,comment=NA,echo=FALSE}
+ 
+hist(Film.Rate.IMDB[Company=="DC"],breaks=10,col="#666633",xlab="Rate IMDB",xlim=c(0,11),ylim=c(0,9),main="Histogram of Rate IMDB related to Company")
+hist(Film.Rate.IMDB[Company=="Marvel"],breaks=5,col="red",add=TRUE)
+
+
+```
+
+
+
+<br>
+
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica e il voto ottenuto da IMDB*</span>
+
+```{r,comment=NA,echo=TRUE}
+#misuro eta quadro tra variabile company e variabile rate
+
+aov.IMDB=summary(aov(MCU_vs_DCU.df$Rate~MCU_vs_DCU.df$Company))
+
+dev.IMDB=aov.IMDB[[1]]$`Sum Sq`
+
+eta.quadro.IMDB=dev.IMDB[1]/sum(dev.IMDB) 
+
+eta.quadro.IMDB
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo il 9.7% della variabilità totale della variabile Film.Rate.IMDB*
+
+<br>
+
+>### <span style="color:white">*Quale film ha ottenuto punteggio minore e quale quello maggiore? A che casa cinematografica appartegono?* </span>
+
+```{r,echo=FALSE,comment=NA}
+summary(Film.Rate.IMDB)
+Lowest.IMDB.Rated.Film=MCU_vs_DCU.df$Original.Title[Film.Rate.IMDB==min(Film.Rate.IMDB)]
+Lowest.IMDB.Rated.Film.Company=MCU_vs_DCU.df$Company[Film.Rate.IMDB==min(Film.Rate.IMDB)]
+Lowest.IMDB.Rated.Film
+Lowest.IMDB.Rated.Film.Company
+
+Higest.IMDB.Rated.Film=MCU_vs_DCU.df$Original.Title[Film.Rate.IMDB==max(Film.Rate.IMDB)]
+Higest.IMDB.Rated.Film.Company=MCU_vs_DCU.df$Company[Film.Rate.IMDB==max(Film.Rate.IMDB)]
+Higest.IMDB.Rated.Film
+Higest.IMDB.Rated.Film.Company
+
+```
+
+<br>
+
+>### <span style="color:white"> *Qual è il film Marvel che ha ottenuto punteggio minore e quale quello maggiore? E quelli DC?* </span>
+
+```{r,echo=FALSE,comment=NA}
+summary(Film.Rate.Marvel.IMDB)
+Higest.IMDB.Rated.Marvel.Film=Original.Title.Marvel[Film.Rate.Marvel.IMDB==max(Film.Rate.Marvel.IMDB)]
+Lowest.IMDB.Rated.Marvel.Film=Original.Title.Marvel[Film.Rate.Marvel.IMDB==min(Film.Rate.Marvel.IMDB)]
+Lowest.IMDB.Rated.Marvel.Film
+Higest.IMDB.Rated.Marvel.Film
+
+
+summary(Film.Rate.DC.IMDB)
+Higest.IMDB.Rated.DC.Film=Original.Title.DC[Film.Rate.DC.IMDB==max(Film.Rate.DC.IMDB)]
+Lowest.IMDB.Rated.DC.Film=Original.Title.DC[Film.Rate.DC.IMDB==min(Film.Rate.DC.IMDB)]
+Lowest.IMDB.Rated.DC.Film
+Higest.IMDB.Rated.DC.Film
+
+
+
+```
+
+
+
+<br>
+
+>## **VARIABILE FILM.RATE.METASCORE**
+
+<br>
+
+>### <span style="color:white">*Analizzo il summary della generica variabile Film.Rate.Metascore per dedurre il range di valori che assume.*</span>
+
+
+```{r,echo=FALSE,comment=NA}
+#4 variabile 4 in posizione 5
+
+MCU_vs_DCU.df[,5]
+Film.Rate.Metascore=MCU_vs_DCU.df[,5]
+
+
+
+
+```
+
+<br>
+
+>### <span style="color:white">*Analizzo il summary della generica variabile Film.Rate.Metascore categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+Film.Rate.Marvel.Metascore=Company.and.Rate.Metascore$Metascore[Company==c("Marvel")]
+
+summary(Film.Rate.Marvel.Metascore)
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+Film.Rate.DC.Metascore=Company.and.Rate.Metascore$Metascore[Company==c("DC")]
+
+summary(Film.Rate.DC.Metascore)
+
+```
+
+
+<br>
+
+>### <span style="color:white">*Creiamo quindi boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione dei voti generici, dei voti per i film Marvel e di quelli per i film DC.*</span>
+
+```{r,echo=FALSE,comment=NA}
+#BOXPLOT film.rate.marvel.metascore
+boxplot.Film.Rate.Marvel.Metascore=boxplot(Film.Rate.Marvel.Metascore,col="red",col.main="red",main="Boxplot of Marvel rate Metascore")
+
+#istogramma film.rate.marvel.metascore
+istogramma.Film.Rate.Marvel.Metascore=hist(Film.Rate.Marvel.Metascore,probability=TRUE,breaks=15,col="red",col.main="red",main="Histogram of Marvel rate Metascore")
+abline(v = median(Film.Rate.Marvel.Metascore),lwd = 2)
+
+#affianco boxplot e istogramma film.marvel.rate
+par(mfrow=c(1,2))
+boxplot.Film.Rate.Marvel.Metascore=boxplot(Film.Rate.Marvel.Metascore,col="red",col.main= "red",main="Boxplot Marvel rate Met. ")
+istogramma.Film.Rate.DC.IMBD=hist(Film.Rate.Marvel.Metascore,probability=TRUE,col="red",col.main="red",breaks=10,main="Histogram Marvel rate Met.")
+
+par(mfrow=c(1,1))
+
+#boxplot film.rate.dc.metascore
+boxplot.Film.Rate.DC.Metascore=boxplot(Film.Rate.DC.Metascore,col="#666633",col.main="#666633",main="Boxplot of DC rate Metascore")
+
+#istogramma film.rate.DC.metascore
+istogramma.Film.Rate.DC.Metascore=hist(Film.Rate.DC.Metascore,probability=TRUE,breaks=10,col="#666633",col.main="#666633",main="Histogram of DC films rate")
+abline(v = median(Film.Rate.DC.Metascore),lwd = 2)
+#affianco boxplot dc e istogramma metascore
+par(mfrow=c(1,2))
+boxplot.Film.Rate.DC.Metascore=boxplot(Film.Rate.DC.Metascore,col="#666633",col.main= "#666633",main="Boxplot of DC rate ")
+istogramma.Film.Rate.DC.Metascore=hist(Film.Rate.DC.Metascore,probability=TRUE,col="#666633",col.main="#666633",breaks=5,main="Histogram of DC rate")
+
+par(mfrow=c(1,1))
+
+
+```
+
+<br>
+
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot del Film.Rate.Metascore di Marvel e DC*</span>
+
+
+```{r,echo=FALSE,comment=NA}
+
+tapply(Film.Rate.Metascore,Company,summary)
+boxplot.Film.Rate.Marvel.Metascore.vs.DC.Metascore=boxplot(Film.Rate.Metascore~Company,outline=FALSE,col=c("#666633","red"))
+
+
+```
+
+<br>
+
+#### *Noto che le osservazioni della variabile Film.Rate.Metascore si distribuiscono in maniera nettamente differente:*
+
+<br>
+
+#### -I minimi ed i massimi dei due boxplot presentano disguaglianza sia sui minimi che sui massimi: 
+
+>Il film Marvel con voto minimo ha ottenuto un voto nettamente superiore a quello DC. Il film DC con voto massimo ha ottenuto una valutazione maggiore rispetto a quello Marvel. In generale i voti dei film Marvel sono molto piu concentrati attorno alla mediana rispetto a quelli DC
+
+
+#### -Le due mediane differiscono:
+
+>I film Marvel hanno voto mediano piu alto di quello dei film DC
+
+
+#### -Il primo quartile presenta una netta disparità:
+
+>La maggior parte delle osservazioni Marvel riporta come Metascore una valutazione molto piu conentrata attorno alla mediana rispetto ai film DC. Si nota,quindi, che la variabile Film.Rate.Metascore è molto più concentrata attorno ad uno specifico valore per i film Marvel.
+
+<br>
+
+>### <span style="color:white">*Creo un istorgamma che metta in relazione la variabile Film.Rate.Metascore e la variabile Company*</span>
+
+```{r,echo=FALSE,comment=NA}
+hist(MCU_vs_DCU.df$Metascore[MCU_vs_DCU.df$Company=="Marvel"],breaks=10,col="red",xlab="Rate Metascore",xlim=c(20,100),ylim=c(0,9),main="Histogram of Rate Metascore related to Company")
+hist(MCU_vs_DCU.df$Metascore[MCU_vs_DCU.df$Company=="DC"],breaks=10,col="#666633",add=TRUE)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica e il voto Metascore*</span>
+
+```{r,comment=NA,echo=TRUE}
+#misuro eta quadro tra variabile company e variabile Metascore
+
+aov.Metascore=summary(aov(MCU_vs_DCU.df$Metascore~MCU_vs_DCU.df$Company))
+
+dev.Metascore=aov.Metascore[[1]]$`Sum Sq`
+
+eta.quadro.Metascore=dev.Metascore[1]/sum(dev.Metascore) 
+eta.quadro.Metascore
+
+```
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo il 19.1% della variabilità totale della variabile Film.Rate.Metascore.*
+
+<br>
+
+>### <span style="color:white"> *Qual è il titolo del film che ha ottenuto Metascore minore e maggiore? A quale Company appartiene?*</span>
+
+```{r,comment=NA,echo=FALSE}
+#3.7 qual è il titolo del film con punteggio maggiore e minore e a quale company appartiene?
+summary(Film.Rate.Metascore)
+Lowest.Metascore.Rated.Film=Original.Title[Film.Rate.Metascore==min(Film.Rate.Metascore)]
+Lowest.Metascore.Rated.Film.Company=Company[Film.Rate.Metascore==min(Film.Rate.Metascore)]
+Lowest.Metascore.Rated.Film
+Lowest.Metascore.Rated.Film.Company
+
+Higest.Metascore.Rated.Film= Original.Title[Film.Rate.Metascore==max(Film.Rate.Metascore)]
+Higest.Metascore.Rated.Film.Company=Company[Film.Rate.Metascore==max(Film.Rate.Metascore)]
+Higest.Metascore.Rated.Film
+Higest.Metascore.Rated.Film.Company
+
+```
+
+
+<br>
+
+>### <span style="color:white"> *Qual è il titolo del film Marvel che ha ottenuto Metascore minore e maggiore? E quello DC?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Film.Rate.Marvel.Metascore)
+Higest.Metascore.Rated.Marvel.Film=Original.Title.Marvel[Film.Rate.Marvel.Metascore==max(Film.Rate.Marvel.Metascore)]
+Lowest.Metascore.Rated.Marvel.Film=Original.Title.Marvel[Film.Rate.Marvel.Metascore==min(Film.Rate.Marvel.Metascore)]
+Lowest.Metascore.Rated.Marvel.Film
+Higest.Metascore.Rated.Marvel.Film
+
+
+summary(Film.Rate.DC.Metascore)
+Higest.Metascore.Rated.DC.Film=Original.Title.DC[Film.Rate.DC.Metascore==max(Film.Rate.DC.Metascore)]
+Lowest.Metascore.Rated.DC.Film=Original.Title.DC[Film.Rate.DC.Metascore==min(Film.Rate.DC.Metascore)]
+Lowest.Metascore.Rated.DC.Film
+Higest.Metascore.Rated.DC.Film
+```
+
+
+<br>
+
+>### <span style="color:white"> *Affianco ,ora, i boxplot delle variabili Film.Rate.IMDB e Film.Rate.Metascore categorizzati per company, normalizzando,prima, la variabile Film.Rate.Metascore in un intervallo tra 0 e 10*</span>
+
+```{r,comment=NA,echo=FALSE}
+MCU_vs_DCU.df$Company=Company
+Film.Rate.Metascore.NORMALIZED=Film.Rate.Metascore/10
+Film.Rate.Marvel.Metascore.NORMALIZED=Film.Rate.Marvel.Metascore/10
+Film.Rate.DC.Metascore.NORMALIZED=Film.Rate.DC.Metascore/10
+Boxplot.Film.Rate.Marvel.Metascore.NORMALIZED=boxplot(Film.Rate.Marvel.Metascore.NORMALIZED,col="red",col.main="red",main="Boxplot of Marvel rate Met. NORM.")
+Boxplot.Film.Rate.DC.Metascore.NORMALIZED=boxplot(Film.Rate.DC.Metascore.NORMALIZED,col="red",col.main="red",main="Boxplot of DC rate Met. NORM.")
+
+par(mfrow=c(1,2))
+tapply(Film.Rate.IMDB,Company,summary)
+boxplot.Film.Rate.Marvel.IMDB.vs.Dc.IMDB=boxplot(Film.Rate.IMDB~Company,outline=FALSE,col=c("#666633","red"))
+
+tapply(Film.Rate.Metascore.NORMALIZED,Company,summary)
+boxplot.Film.Rate.Marvel.Metascore.vs.DC.Metascore=boxplot(Film.Rate.Metascore.NORMALIZED~Company,outline=FALSE,col=c("#666633","red"))
+
+par(mfrow=c(1,1))
+
+```
+
+<br>
+
+#### *Si deduce che per entrambi i siti di riferimento , per la recezione di dati relativi alla valutazione, hanno valutato un numero maggiore di fim Marvel più positivamente rispetto a quelli DC*.
+<br>
+
+>### <span style="color:white"> *Verifico, infine, la correlazione tra la variabile Film.Rate.IMDB e Film.Rate.Metascore, realizzando ,successivamente, il grafico di dispersione.*</span>
+
+```{r,comment=NA}
+Df.voti=MCU_vs_DCU.df[,c(4,5)]
+Mat.voti=as.matrix(Df.voti)
+cor.mat.voti=cor(Mat.voti)
+cor.mat.voti
+```
+
+```{r,echo=FALSE,comment=NA}
+Company.1=c(rep(2,23),rep(1,16))
+Grafico.Metascore=plot(Film.Rate.IMDB,Film.Rate.Metascore,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+#disegno retta regressione
+Retta.reg.Metascore=lm(MCU_vs_DCU.df$Metascore~MCU_vs_DCU.df$Rate)
+summary(Retta.reg.Metascore)
+abline(Retta.reg.Metascore,col="#00FF00",lwd=2)
+```
+
+```{r,echo=FALSE,comment=NA}
+library(ggplot2)
+ggplot.rate.metascore=ggplot(MCU_vs_DCU.df[,c(4,5)])+geom_point(aes(x=Film.Rate.IMDB,y=Film.Rate.Metascore,color=Company,size=(Metascore/10)/Rate))
+
+ggplot.rate.metascore
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Film.Rate.Metascore è molto alta, pertanto mi vuol quanto è forte il legame  tra Film.Rate.Metascore e Film.Rate.IMDB quando sono paritarie*
+
+<br>
+
+>## **VARIABILE FILM.MINUTES**
+
+<br>
+
+>### <span style="color:white">*Analizzo il summary della  variabile Film.Minutes per dedurre il range di valori che assume.*</span>
+
+```{r,echo=FALSE,comment=NA}
+#4 variabile 4 in posizione 5
+MCU_vs_DCU.df[,6]
+Film.minutes=MCU_vs_DCU.df[,6]
+summary(Film.minutes)
+
+
+```
+
+<br>
+
+>### <span style="color:white">*Analizzo il summary della  variabile Film.Minutes categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+Film.minutes.Marvel=MCU_vs_DCU.df$Minutes[MCU_vs_DCU.df$Company=="Marvel"]
+summary(Film.minutes.Marvel)
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+Film.minutes.DC=MCU_vs_DCU.df$Minutes[MCU_vs_DCU.df$Company=="DC"]
+summary(Film.minutes.DC)
+
+
+```
+
+
+
+
+<br>
+
+>### <span style="color:white">*Creiamo quindi boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione della variabile Film.Minutes geerica e della variabile Film.Minutes categorizzata per i film Marvel  DC.*</span>
+
+```{r,echo=FALSE,comment=NA}
+#rappresento boxplot
+boxplot.Film.minutes=boxplot(Film.minutes,col="green",col.main="green",main="Boxplot of film minutes")
+
+# istogramma variabile Film.minutes
+istogramma.Film.minutes=hist(Film.minutes,probability=TRUE,col="green",col.main="green",breaks=10,main="Histogram of film minutes")
+abline(v = median(Film.minutes),lwd = 2)
+
+# affianco boxplot e istogramma Film.minutes
+par(mfrow=c(1,2))
+boxplot.Film.minutes=boxplot(Film.minutes,col="green",col.main= "green",main="Boxplot of film minutes")
+istogramma.Film.minutes=hist(Film.minutes,probability=TRUE,col="green",col.main="green",breaks=10,main="Histogram of film minutes")
+
+par(mfrow=c(1,1))
+
+#boxplot durata dei film marvel
+
+boxplot.Film.minutes.Marvel=boxplot(Film.minutes.Marvel,col="red",col.main="red",main="Boxplot of Marvel film minutes ")
+
+#istogramma durata film marvel
+istogramma.Film.minutes.Marvel=hist(Film.minutes.Marvel,probability=TRUE,col="red",col.main="red",breaks=10,main="Histogram of Marvel film minutes")
+
+#affianco boxplot e istogramma durata film marvel
+par(mfrow=c(1,2))
+boxplot.Film.minutes.Marvel=boxplot(Film.minutes.Marvel,col="red",col.main= "red",main="Boxplot of Marvel film minutes ")
+istogramma.Film.minutes.Marvel=hist(Film.minutes.Marvel,probability=TRUE,col="red",col.main="red",breaks=10,main="Histogram of Marvel film minutes")
+
+par(mfrow=c(1,1))
+
+#boxplot durata dei film DC
+
+boxplot.Film.minutes.DC=boxplot(Film.minutes.DC,col="#666633",col.main="#666633",main="Boxplot of DC film minutes ")
+
+#istogramma durata film DC
+istogramma.Film.minutes.DC=hist(Film.minutes.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=10,main="Histogram of DC film minutes")
+
+#affianco boxplot e istogramma durata film DC
+par(mfrow=c(1,2))
+boxplot.Film.minutes.DC=boxplot(Film.minutes.DC,col="#666633",col.main= "#666633",main="Boxplot of DC film minutes ")
+istogramma.Film.minutes.DC=hist(Film.minutes.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=10,main="Histogram of DC film minutes")
+
+par(mfrow=c(1,1))
+
+
+#affianco boxplot e istogramma minuti film marvel e dc
+
+par(mfrow=c(2,2))
+boxplot.Film.minutes.Marvel=boxplot(Film.minutes.Marvel,col="red",col.main="red",main="Boxplot of Marvel film minutes ")
+boxplot.Film.minutes.DC=boxplot(Film.minutes.DC,col="#666633",col.main="#666633",main="Boxplot of DC film minutes ")
+istogramma.Film.minutes.Marvel=hist(Film.minutes.Marvel,probability=TRUE,col="red",col.main="red",breaks=10,main="Histogram of Marvel film minutes")
+istogramma.Film.minutes.DC=hist(Film.minutes.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=10,main="Histogram of DC film minutes")
+
+par(mfrow=c(1,1))
+
+
+```
+
+ <br>
+ 
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot della variabile Film.Minutes di Marvel e DC, in modo da valutare la distribuzione avendo come riferimento la stessa scala*</span>
+
+```{r,echo=FALSE,comment=NA}
+Film.minutes
+tapply(Film.minutes,Company,summary)
+boxplot.Film.minutes.Marvel.vs.Dc=boxplot(Film.minutes~Company,outline=FALSE,col=c("#666633","red"))
+
+```
+
+<br>
+
+#### *Noto che le osservazioni della varibaile Film.Minutes si distribuiscono in maniera nettamente differente:*
+
+<br>
+
+#### -I minimi ed i massimi dei due boxplot presentano disguaglianza sia sui minimi che sui massimi: 
+
+>Il film Marvel con durata piu bassa è comunque più lungo del film piu breve DC di quasi il 50%. Il film più lungo invece appartiene alla Company DC.
+
+#### -Le due mediane differiscono:
+
+>I film DC hanno durata mediana piu alta di quella dei film Marvel
+
+
+#### -Il terzo quartile presenta una netta disparità:
+
+>Se la durata dei film Marvel è molto piu concentrata attorno alla mediana, quella dei film DC presenta alta variabilità.  
+
+<br>
+
+>### <span style="color:white">*Creo un istorgamma che metta in relazione la variabile Film.Minutes e la variabile Company*</span>
+
+```{r,echo=FALSE,comment=NA}
+hist(MCU_vs_DCU.df$Minutes[MCU_vs_DCU.df$Company=="Marvel"],breaks=10,col="red",xlab="Film minutes",xlim=c(70,185),ylim=c(0,5),main="Histogram of Minutes related to Company")
+hist(MCU_vs_DCU.df$Minutes[MCU_vs_DCU.df$Company=="DC"],breaks=10,col="#666633",add=TRUE)
+```
+
+<br>
+
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica e la durata del film*</span>
+
+```{r,comment=NA,echo=TRUE}
+#misuro eta quadro tra variabile company e variabile Minutes
+
+aov.Minutes=summary(aov(Film.minutes~Company))
+
+dev.Minutes=aov.Minutes[[1]]$`Sum Sq`
+
+eta.quadro.Minutes=dev.Minutes[1]/sum(dev.Minutes) 
+eta.quadro.Minutes
+
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo l'1% della variabilità totale della variabile Film.Minutes*
+
+<br>
+
+<br>
+
+>### <span style="color:white"> *Quale film ha durata minore? E quale quella maggiore?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Film.minutes)
+shortest.film=MCU_vs_DCU.df$Original.Title[Film.minutes==min(Film.minutes)]
+shortest.film.company=MCU_vs_DCU.df$Company[Film.minutes==min(Film.minutes)]
+shortest.film
+shortest.film.company
+
+longets.film=MCU_vs_DCU.df$Original.Title[Film.minutes==max(Film.minutes)]
+longets.film.company=MCU_vs_DCU.df$Company[Film.minutes==max(Film.minutes)]
+longets.film
+longets.film.company
+```
+
+<br>
+
+
+>### <span style="color:white"> *Quanti film Marvel dalla durata  x hanno ricevuto voto y da IMBD?*</span>
+
+```{r,comment=NA,echo=FALSE}
+Film.Marvel=MCU_vs_DCU.df[MCU_vs_DCU.df$Company=="Marvel",]
+table(Film.Marvel$Rate,Film.Marvel$Minutes)
+prop.table(table(Film.Marvel$Rate,Film.Marvel$Minutes),2)
+
+```
+
+
+<br>
+
+
+>### <span style="color:white"> *Quanti film DC dalla durata  x hanno ricevuto voto y da IMBD?*</span>
+
+```{r,comment=NA,echo=FALSE}
+Film.DC=MCU_vs_DCU.df[MCU_vs_DCU.df$Company=="DC",]
+table(Film.DC$Rate,Film.DC$Minutes)
+prop.table(table(Film.DC$Rate,Film.DC$Minutes),2)
+
+
+
+```
+
+
+<br>
+
+
+>### <span style="color:white"> *Quanti film Marvel dalla durata  x hanno ricevuto voto y da Metascore?*</span>
+
+```{r,comment=NA,echo=FALSE}
+Film.Marvel=MCU_vs_DCU.df[MCU_vs_DCU.df$Company=="Marvel",]
+
+
+table(Film.Marvel$Metascore,Film.Marvel$Minutes)
+prop.table(table(Film.Marvel$Metascore,Film.Marvel$Minutes),2)
+
+
+```
+
+<br>
+
+
+>### <span style="color:white"> *Quanti film DC dalla durata  x hanno ricevuto voto y da Metascore?*</span>
+
+```{r,comment=NA,echo=FALSE}
+Film.DC=MCU_vs_DCU.df[MCU_vs_DCU.df$Company=="DC",]
+
+table(Film.DC$Metascore,Film.DC$Minutes)
+prop.table(table(Film.DC$Metascore,Film.DC$Minutes),2)
+
+
+
+```
+
+<br>
+
+
+>### <span style="color:white"> *Converto variabile quantitativa Film.Minutes in categorica*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+var.categorica.minutes=cut(Film.minutes,breaks=c(0,100,135,185))
+var.categorica.minutes=factor(var.categorica.minutes,order=TRUE)
+durata.film=table(var.categorica.minutes)
+durata.film
+levels(var.categorica.minutes)=c("breve durata","normo durata","lunga durata")
+durata.film.Marvel.DC=table(Company,var.categorica.minutes)
+durata.film.Marvel.DC
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro connessione statistica tra variabile Company e variabile Film.Minutes categorica*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+chisq.test(Company,var.categorica.minutes)
+X.squared.Minutes=chisq.test(Company,var.categorica.minutes)
+X.squared.Minutes$statistic
+Phi.Minutes=as.numeric(X.squared.Minutes$statistic)/39
+Tchuprov.Minutes=sqrt(Phi.Minutes/sqrt(2))
+Tchuprov.Minutes
+
+```
+<br>
+
+#### *Dal risultato si deduce che c'è il 29 % della massima connessione statistica.*
+
+<br>
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Film.Minutes e Film.Rate.IMDB, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Grafico.Minutes=plot(Film.minutes,Film.Rate.IMDB,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+Retta.reg.Minutes=lm(Film.Rate.IMDB~Film.minutes)
+summary(Retta.reg.Minutes)
+abline(Retta.reg.Minutes,col="#00FF00",lwd=2)
+
+```
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Film.Minutes è abbastanza alta, soprattutto per i film Marvel, pertanto mi vuol dire quanta variazione di Film.Rate.IMDB è spiegata da una variazione unitaria di Film.Minutes*
+
+<br>
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Film.Minutes e Film.Rate.Metascore, realizzandoil grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.minutes=MCU_vs_DCU.df[,c(5,6)]
+Mat.minutes=as.matrix(Df.minutes)
+cor.mat.minutes=cor(Mat.minutes)
+cor.mat.minutes
+Grafico.Minutes.2=plot(Film.minutes,Film.Rate.Metascore,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+Retta.reg.Minutes.2=lm(Film.Rate.Metascore~Film.minutes)
+summary(Retta.reg.Minutes.2)
+abline(Retta.reg.Minutes.2,col="#00FF00",lwd=2)
+
+```
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.Metascore E Film.Minutes è abbastanza alta,soprattutto per i film Marvel, pertanto mi vuol dire quanto è forte il legame simmetrico tra Film.Rate.Metascore e Film.Minutes quando sono paritarie*
+
+<br>
+
+>## **VARIABILE DATE.RELEASE**
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile date.release per dedurre il range di valori che assume*</span>
+
+```{r,comment=NA}
+# variabile nella settima colonna
+
+MCU_vs_DCU.df[,7]
+date.release=MCU_vs_DCU.df[,7]
+summary(date.release)
+
+
+
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile date.release categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+date.release.Marvel=MCU_vs_DCU.df$Release[MCU_vs_DCU.df$Company=="Marvel"]
+summary(date.release.Marvel)
+
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+date.release.DC=MCU_vs_DCU.df$Release[MCU_vs_DCU.df$Company=="DC"]
+summary(date.release.DC)
+
+```
+
+
+
+<br>
+
+>### <span style="color:white"> *Creiamo ,quindi, boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione della variabile date.release generica e relativamente ai film Marvel DC.* </span>
+
+```{r,echo=FALSE}
+#rappresento boxplot
+boxplot.date.release=boxplot(date.release,col="orange",col.main="orange",main="Boxplot of date release")
+
+# istogramma variabile date.release
+istogramma.date.release=hist(date.release,probability=TRUE,col="orange",col.main="orange",breaks=15,main="Histogram of date release")
+abline(v = median(date.release),lwd = 2)
+
+# affianco boxplot e istogramma date.release
+par(mfrow=c(1,2))
+boxplot.date.release=boxplot(date.release,col="orange",col.main="orange",main="Boxplot of date release")
+istogramma.date.release=hist(date.release,probability=TRUE,col="orange",col.main="orange",breaks=15,main="Histogram of date release")
+
+par(mfrow=c(1,1))
+#boxplot date.release film marvel
+
+boxplot.date.release.Marvel=boxplot(date.release.Marvel,col="red",col.main="red",main="Boxplot of date release Marvel")
+
+#istogramma date.release film marvel
+istogramma.date.release.Marvel=hist(date.release.Marvel,probability=TRUE,col="red",col.main="red",breaks=15,main="Histogram of Marvel film minutes")
+abline(v = median(date.release.Marvel),lwd = 2)
+
+
+# affianco boxplot e istogramma date.release.MARVEL
+par(mfrow=c(1,2))
+boxplot.date.release.Marvel=boxplot(date.release.Marvel,col="red",col.main="red",main="Boxplot of date release Marvel")
+istogramma.date.release.Marvel=hist(date.release.Marvel,probability=TRUE,col="red",col.main="red",breaks=15,main="Histogram of Marvel film minutes")
+
+
+par(mfrow=c(1,1))
+
+#boxplot date.release film DC
+
+boxplot.date.release.DC=boxplot(date.release.DC,col="#666633",col.main="#666633",main="Boxplot of date release DC")
+
+#istogramma date.release film DC
+istogramma.date.release.DC=hist(date.release.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=15,main="Histogram of DC film minutes")
+abline(v = median(date.release.Marvel),lwd = 2)
+
+
+# affianco boxplot e istogramma date.release.DC
+par(mfrow=c(1,2))
+boxplot.date.release.DC=boxplot(date.release.DC,col="#666633",col.main="#666633",main="Boxplot of date release DC")
+istogramma.date.release.DC=hist(date.release.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=15,main="Histogram of DC film minutes")
+
+par(mfrow=c(1,1))
+
+#affianco boxplot e istogramma DATA.RELEASE film marvel e dc
+
+par(mfrow=c(2,2))
+boxplot.date.release.Marvel=boxplot(date.release.Marvel,col="red",col.main="red",main="Boxplot of date release Marvel")
+boxplot.date.release.DC=boxplot(date.release.DC,col="#666633",col.main="#666633",main="Boxplot of date release DC")
+istogramma.date.release.Marvel=hist(date.release.Marvel,probability=TRUE,col="red",col.main="red",breaks=15,main="Histogram of Marvel film minutes")
+istogramma.date.release.DC=hist(date.release.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=15,main="Histogram of DC film minutes")
+
+par(mfrow=c(1,1))
+
+
+
+```
+
+ <br>
+ 
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot del date.release di Marvel e DC, in modo da valutare la distribuzione avendo come riferimento la stessa scala*</span>
+
+```{r,echo=FALSE,comment=NA}
+
+date.release
+tapply(date.release,Company,summary)
+boxplot.date.release.Marvel.vs.Dc=boxplot(date.release~Company,outline=FALSE,col=c("#666633","red"))
+
+
+```
+
+<br>
+
+#### *Noto che le osservazioni della variabile date.release si distribuiscono in maniera  differente:*
+
+<br>
+
+#### -I minimi dei due boxplot presentano disguaglianza:
+
+>Il primo film DC è uscito  2/3 anni prima del primo film Marvel
+
+
+#### -Le due mediane differiscono, anche se di poco:
+
+>La mediana della variabile date.release di DC è inferiore a quella di Marvel
+
+
+#### -Il primo quartile presenta una netta disparità:
+
+>I film Marvel sono usciti in un arco di tempo piu concentrato attorno alla mediana , a differenza di quelli DC la cui uscita è spalmata su più anni.
+
+<br>
+
+>### <span style="color:white"> *Creo un istorgamma che metta in relazione la variabile date.release e la variabile Company*</span>
+
+
+```{r,comment=NA,echo=FALSE}
+ 
+hist(MCU_vs_DCU.df$Release[MCU_vs_DCU.df$Company=="Marvel"],breaks=15,col="red",xlab="date release",xlim=c(2000,2020),ylim=c(0,4),main="Histogram of Date release related to Company")
+hist(MCU_vs_DCU.df$Release[MCU_vs_DCU.df$Company=="DC"],breaks=15,col="#666633",add=TRUE)
+
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica e la data di rilascio del film*</span>
+
+```{r,comment=NA,echo=TRUE}
+#misuro eta quadro tra variabile company e variabile date.release
+
+aov.date.release=summary(aov(date.release~Company))
+
+dev.date.release=aov.date.release[[1]]$`Sum Sq`
+
+eta.quadro.date=dev.date.release[1]/sum(dev.date.release) 
+eta.quadro.date
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo il 6.5% della variabilità totale della variabile date.release*
+
+
+<br>
+
+>### <span style="color:white"> *Quale film è uscito per primo? Quale per ultimo?*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+summary(date.release)
+first.film=MCU_vs_DCU.df$Original.Title[date.release==min(date.release)]
+first.film.company=MCU_vs_DCU.df$Company[date.release==min(date.release)]
+first.film
+first.film.company
+last.film=MCU_vs_DCU.df$Original.Title[date.release==max(date.release)]
+last.film.company=MCU_vs_DCU.df$Company[date.release==max(date.release)]
+last.film
+last.film.company
+```
+
+
+<br>
+
+>### <span style="color:white"> *Quale film Marvel e DC è uscito per primo? Quale per ultimo?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(date.release)
+first.film.Marvel=Original.Title.Marvel[date.release.Marvel==min(date.release.Marvel)]
+first.film.DC=Original.Title.DC[date.release.DC==min(date.release.DC)]
+first.film.Marvel
+first.film.DC
+last.film.Marvel=Original.Title.Marvel[date.release.Marvel==max(date.release.Marvel)]
+last.film.DC=Original.Title.DC[date.release.DC==max(date.release.DC)]
+last.film.Marvel
+last.film.DC
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Quanti film sono usciti nell'anno X?*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+n_film_anno_X=cut(date.release,breaks=c(2003,2004,2005,2006,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020))
+n_film_anno_X=factor(n_film_anno_X,order=TRUE)
+levels(n_film_anno_X)=c("2004","2005","2006","2008", "2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020")
+n.film.anno.X=table(n_film_anno_X)
+n.film.anno.X
+```
+
+<br>
+
+>### <span style="color:white"> *Quanti film Marvel e DC sono usciti nell'anno X?*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+n.film.Marvel.DC.anno.X=table(Company,n_film_anno_X)
+n.film.Marvel.DC.anno.X
+```
+
+<br>
+
+>### <span style="color:white"> *Converto variabile quantitativa date.release in categorica*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+summary(date.release)
+var.categorica.date.release=cut(date.release,breaks=c(2003,2009,2014,2019))
+var.categorica.date.release=factor(var.categorica.date.release,order=TRUE)
+table(var.categorica.date.release)
+var.categorica.date.release
+#analizzo l'associazione tra la variabile categorica Company e date release
+levels(var.categorica.date.release)=c("vintage","vecchio","recente")
+table(Company,var.categorica.date.release)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro connessione statistica tra variabile Company e variabile date.release*</span>
+
+```{r,comment=NA,echo=FALSE}
+chisq.test(Company,var.categorica.date.release)
+X.squared.date=chisq.test(Company,var.categorica.date.release)
+X.squared.date$statistic
+Phi.date=as.numeric(X.squared.date$statistic)/39
+Tchuprov.date=sqrt(Phi.date/sqrt(2))
+Tchuprov.date
+```
+<br>
+
+#### *Dal risultato si deduce che c'è il 24 % della massima connessione statistica.*
+
+
+
+<br>
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile date.release e Film.Minutes, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.minutes.date.release=MCU_vs_DCU.df[,c(6,7)]
+Mat.minutes.date.release=as.matrix(Df.minutes.date.release)
+cor.mat.minutes.date.release=cor(Mat.minutes.date.release)
+cor.mat.minutes.date.release
+Grafico.date.release=plot(date.release,Film.minutes,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+Retta.reg.date.release=lm(Film.minutes~date.release)
+summary(Retta.reg.date.release)
+abline(Retta.reg.date.release,col="#00FF00",lwd=2)
+
+library(ggplot2)
+ggplot.date.minutes=ggplot(MCU_vs_DCU.df[,c(6,7)])+geom_point(aes(x=date.release,y=Film.minutes,color=Company))
+ggplot.date.minutes
+```
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Film.Rate.Metascore è molto bassa, pertanto mi vuol dire quanto è forte il legame simmetrico tra Film.Minutes e date.release quando sono paritarie*
+
+<br>
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile date.release e Film.Rate.IMDB, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.IMDB.date.release=MCU_vs_DCU.df[,c(6,7)]
+Mat.IMDB.date.release=as.matrix(Df.IMDB.date.release)
+cor.mat.IMDB.date.release=cor(Mat.IMDB.date.release)
+cor.mat.IMDB.date.release
+Grafico.date.release.2=plot(date.release,Film.Rate.IMDB,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+
+
+Retta.reg.date.release.2=lm(Film.Rate.IMDB~date.release)
+summary(Retta.reg.date.release.2)
+abline(Retta.reg.date.release.2,col="#00FF00",lwd=2)
+
+
+library(ggplot2)
+ggplot.date.IMDB=ggplot(MCU_vs_DCU.df[,c(4,7)])+geom_point(aes(x=date.release,y=Film.Rate.IMDB,color=Company))
+ggplot.date.IMDB
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Film.Rate.Metascore è molto bassa, pertanto mi vuol dire quanto  è forte il legame simmetrico tra Film.Rate.IMDB e Film.Minutes quando sono paritarie.*
+
+<br>
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile date.release e Film.Rate.Metascore, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.Metascore.date.release=MCU_vs_DCU.df[,c(6,7)]
+Mat.Metascore.date.release=as.matrix(Df.Metascore.date.release)
+cor.mat.Metascore.date.release=cor(Mat.Metascore.date.release)
+cor.mat.Metascore.date.release
+Grafico.date.release.3=plot(date.release,Film.Rate.Metascore,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+
+Retta.reg.date.release.3=lm(Film.Rate.Metascore~date.release)
+summary(Retta.reg.date.release.3)
+abline(Retta.reg.date.release.3,col="#00FF00",lwd=2)
+
+library(ggplot2)
+ggplot.date.metascore=ggplot(MCU_vs_DCU.df[,c(5,7)])+geom_point(aes(x=date.release,y=Film.Rate.Metascore,color=Company))
+ggplot.date.metascore
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Film.Rate.Metascore è molto bassa, pertanto mi vuol dire quanto è forte il legame simmetrico tra  Film.Rate.Metascore e Film.Minutes quando sono paritarie.*
+
+<br>
+
+>## **VARIABILE BUDGET**
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Budget per dedurre il range di valori che assume*</span>
+
+```{r,comment=NA}
+MCU_vs_DCU.df[,8]
+str(MCU_vs_DCU.df[,8])
+Budget=MCU_vs_DCU.df[,8]
+summary(Budget)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Budget categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+Budget.Marvel=MCU_vs_DCU.df$Budget[MCU_vs_DCU.df$Company=="Marvel"]
+summary(Budget.Marvel)
+
+
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+Budget.DC=MCU_vs_DCU.df$Budget[MCU_vs_DCU.df$Company=="DC"]
+summary(Budget.DC)
+
+```
+
+
+
+<br>
+
+>### <span style="color:white"> *Creiamo ,quindi, boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione della variabile Budget generica e relativamente ai film Marvel DC.* </span>
+
+```{r,echo=FALSE,comment=NA}
+boxplot.Budget=boxplot(Budget,col="pink",col.main="pink",main="Boxplot of Budget")
+istogramma.Budget=hist(Budget,probability=TRUE,col="pink",col.main="pink",breaks=10,main="Histogram of Budget")
+abline(v = median(Budget),lwd = 2)
+par(mfrow=c(1,2))
+boxplot.Budget=boxplot(Budget,col="pink",col.main="pink",main="Boxplot of Budget")
+istogramma.Budget=hist(Budget,probability=TRUE,col="pink",col.main="pink",breaks=15,main="Histogram of Budget")
+
+par(mfrow=c(1,1))
+#boxplot Budget film marvel
+
+boxplot.Budget.Marvel=boxplot(Budget.Marvel,col="red",col.main="red",main="Boxplot of Budget Marvel")
+
+#istogramma Budget film marvel
+istogramma.Budgte.Marvel=hist(Budget.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of Budget Marvel")
+abline(v = median(Budget.Marvel),lwd = 2)
+
+# affianco boxplot e istogramma Budget.Marvel
+par(mfrow=c(1,2))
+boxplot.Budget.Marvel=boxplot(Budget.Marvel,col="red",col.main="red",main="Boxplot of Budget Marvel")
+istogramma.Budgte.Marvel=hist(Budget.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of Budget Marvel")
+
+
+par(mfrow=c(1,1))
+#boxplot Budget film DC
+
+boxplot.Budget.DC=boxplot(Budget.DC,col="#666633",col.main="#666633",main="Boxplot of Budget DC")
+
+#istogramma Budget film DC
+istogramma.Budgte.DC=hist(Budget.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of Budget DC")
+abline(v = median(Budget.DC),lwd = 2)
+
+# affianco boxplot e istogramma Budget.DC
+par(mfrow=c(1,2))
+boxplot.Budget.DC=boxplot(Budget.DC,col="#666633",col.main="#666633",main="Boxplot of Budget DC")
+istogramma.Budget.DC=hist(Budget.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of Budget DC")
+
+par(mfrow=c(1,1))
+```
+
+ <br>
+ 
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot della variabile Budget di Marvel e DC, in modo da valutare la distribuzione avendo come riferimento la stessa scala*</span>
+
+```{r,echo=FALSE,comment=NA}
+
+
+tapply(Budget,Company,summary)
+boxplot.Budget.Marvel.vs.Dc=boxplot(Budget~Company,outline=FALSE,col=c("#666633","red"))
+
+
+```
+
+<br>
+
+#### *Noto che i Film.Rate.IMDB si distribuiscono in maniera nettamente differente:*
+
+<br>
+
+#### -I minimi ed i massimi dei due boxplot presentano disguaglianza:
+
+>Il Budget minimo per i film Marvel è superiore a quello DC, mentre il Budget massimo utilizzato per la produzione di un film è stato maggiore da parte di DC.
+
+
+#### -Il primo quartile ed il terzo  presentano una netta disparità:
+
+>La maggioranza dei film Marvel sono stati realizzati con un Budget il cui valore è molto più concentrato attorno alla mediana relativa rispetto a quello dei film DC. Da ciò si deduce maggior variabilità nelle osservazioni categorizzate per la Company DC rispetto a quella Marvel.
+
+<br>
+
+>### <span style="color:white"> *Creo un istorgamma che metta in relazione la variabile Budget e la variabile Company*</span>
+
+
+```{r,comment=NA,echo=FALSE}
+ 
+hist(MCU_vs_DCU.df$Budget[MCU_vs_DCU.df$Company=="Marvel"],breaks=11,col="red",xlab="Budget",xlim=c(47000000,356000000),ylim=c(0,5),main="Histogram of Budget related to Company")
+hist(MCU_vs_DCU.df$Budget[MCU_vs_DCU.df$Company=="DC"],breaks=15,col="#666633",add=TRUE)
+
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica ed il budget utilizzato per un determinato film*</span>
+
+```{r,comment=NA,echo=TRUE}
+aov.Budget=summary(aov(Budget~Company))
+
+dev.Budget=aov.Budget[[1]]$`Sum Sq`
+
+eta.quadro.Budget=dev.Budget[1]/sum(dev.Budget) 
+eta.quadro.Budget
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo il 2.6% della variabilità totale della variabile Budget*
+
+<br>
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra la variabile categorica Minutes ed il budget utilizzato per un determinato film*</span>
+
+```{r,comment=NA,echo=TRUE}
+aov.Budget.2=summary(aov(Budget~var.categorica.minutes))
+
+dev.Budget.2=aov.Budget.2[[1]]$`Sum Sq`
+
+eta.quadro.Budget.2=dev.Budget.2[1]/sum(dev.Budget.2) 
+eta.quadro.Budget.2
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile categorica Minutes spiega il 31.6% della variabilità totale della variabile Budget*
+
+
+<br>
+
+>### <span style="color:white"> *Quale film ha utilizzato il Budget più basso? Quale il più alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+summary(Budget)
+
+
+film.lowest.budget=MCU_vs_DCU.df$Original.Title[Budget==min(Budget)]
+company.film.lowest.budget=MCU_vs_DCU.df$Company[Budget==min(Budget)]
+film.lowest.budget
+company.film.lowest.budget
+film.higest.budget=MCU_vs_DCU.df$Original.Title[Budget==max(Budget) ]
+company.film.higest.budget=MCU_vs_DCU.df$Company[Budget==max(Budget)]
+film.higest.budget
+company.film.higest.budget
+```
+
+<br>
+
+>### <span style="color:white"> *Che voto ha ottenuto da IMDB il film con il budget piu basso e quello con il budget piu alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Film.Rate.IMDB)
+
+rate.film.lowest.budget=Film.Rate.IMDB[Original.Title==film.lowest.budget]
+rate.film.lowest.budget
+rate.film.higest.budget=Film.Rate.IMDB[Original.Title==film.higest.budget]
+rate.film.higest.budget
+```
+
+<br>
+
+>### <span style="color:white"> *Che voto ha ottenuto da Metascore il film con il budget piu basso e quello con il budget piu alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Film.Rate.Metascore)
+rate.higest.film.budget=Film.Rate.Metascore[Original.Title==film.higest.budget]
+rate.lowest.film.budget=Film.Rate.Metascore[Original.Title==film.lowest.budget]
+rate.lowest.film.budget
+rate.higest.film.budget
+
+```
+
+<br>
+
+>### <span style="color:white"> *Che budget ha avuto il film con voto piu basso e alto per IMDB?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Film.Rate.IMDB)
+budget.higest.rate.film.IMDB=MCU_vs_DCU.df$Budget[Film.Rate.IMDB==min(Film.Rate.IMDB)]
+budget.lowest.rated.film.IMDB=MCU_vs_DCU.df$Budget[Film.Rate.IMDB==max(Film.Rate.IMDB)]
+budget.lowest.rated.film.IMDB
+budget.higest.rate.film.IMDB
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Che budget ha avuto il film con voto piu basso e alto per Metascore?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Film.Rate.Metascore)
+budget.higest.rate.film.Metascore=MCU_vs_DCU.df$Budget[Film.Rate.Metascore==max(Film.Rate.Metascore)]
+budget.lowest.rated.film.Metascore=MCU_vs_DCU.df$Budget[Film.Rate.Metascore==min(Film.Rate.Metascore)]
+budget.lowest.rated.film.Metascore
+budget.higest.rate.film.Metascore
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Quale film Marvel ha avuto un budget più basso? Quale quello più alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Budget.Marvel)
+
+title.film.Marvel.lowest.budget=Original.Title.Marvel[Budget.Marvel==min(Budget.Marvel)]
+title.film.Marvel.higest.budget=Original.Title.Marvel[Budget==max(Budget.Marvel)]
+title.film.Marvel.lowest.budget
+title.film.Marvel.higest.budget
+
+```
+
+<br>
+
+>### <span style="color:white"> *Quale film DC ha avuto il budget più basso? Quale quello più alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+summary(Budget.DC)
+
+title.film.DC.lowest.budget=Original.Title.DC[Budget.DC==min(Budget.DC)]
+title.film.DC.higest.budget=Original.Title.DC[Budget.DC==max(Budget.DC)]
+title.film.DC.lowest.budget
+title.film.DC.higest.budget
+
+```
+
+<br>
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Budget e Film.minutes, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Grafico.budget=plot(Budget,Film.minutes,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+#disegno retta di regressione
+Retta.reg.budget=lm(Film.minutes~Budget)
+summary(Retta.reg.budget)
+abline(Retta.reg.budget,col="#00FF00",lwd=2)
+library(ggplot2)
+ggplot.budget.minutes=ggplot(MCU_vs_DCU.df[,c(6,8)])+geom_point(aes(x=Budget,y=Minutes,color=Company))+facet_wrap(date.release)
+ggplot.budget.minutes
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Film.Rate.Metascore è abbastanza alta, pertanto mi vuol dire quanto è forte il legame simmetrico tra Film.minutes e Budget quando sono paritarie.*
+
+<br>
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Budget e Film.Rate.IMDB, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Grafico.budget.2=plot(Budget,Film.Rate.IMDB,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+#disegno retta di regressione
+Retta.reg.budget.2=lm(Film.Rate.IMDB~Budget)
+summary(Retta.reg.budget.2)
+abline(Retta.reg.budget.2,col="#00FF00",lwd=2)
+library(ggplot2)
+ggplot.budget.IMDB=ggplot(MCU_vs_DCU.df[,c(4,8)])+geom_point(aes(x=Budget,y=Rate,color=Company,size=Film.minutes))
+ggplot.budget.IMDB
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Budget E Film.Rate.IMDB è abbastanza alta soprattutto per i film Marvel, pertanto mi vuol dire quanto è forte il legame simmetrico tra Film.Rate.IMDB e Budget quando sono paritarie.*
+
+<br>
+
+>## **VARIABILE OPENING.WEEKEND.USA**
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Opening.weekend.USA per dedurre il range di valori che assume*</span>
+
+```{r,comment=NA}
+MCU_vs_DCU.df[,9]
+Opening.weekend.USA=MCU_vs_DCU.df[,9]
+summary(Opening.weekend.USA)
+sum(Opening.weekend.USA)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Opening.weekend.USA categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+first.weekend.Marvel=Opening.weekend.USA[Company=="Marvel"]
+summary(first.weekend.Marvel)
+
+
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+first.weekend.DC=Opening.weekend.USA[Company=="DC"]
+summary(first.weekend.DC)
+
+```
+
+
+
+<br>
+
+>### <span style="color:white"> *Creiamo ,quindi, boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione della variabile Opening.weekend.USA generica e relativamente ai film Marvel DC.* </span>
+
+```{r,echo=FALSE,comment=NA}
+#rappresento boxplot
+boxplot.first.weekend.USA=boxplot(Opening.weekend.USA,col="darkmagenta",col.main="darkmagenta",main="Boxplot of first weekend USA")
+
+# istogramma variabile budget
+istogramma.first.weekend.USA=hist(Opening.weekend.USA,probability=TRUE,col="darkmagenta",col.main="darkmagenta",breaks=10,main="Histogram of first weekend USA")
+abline(v = median(Opening.weekend.USA),lwd = 2)
+
+# affianco boxplot e istogramma Budget
+par(mfrow=c(1,2))
+boxplot.first.weekend.USA=boxplot(Opening.weekend.USA,col="darkmagenta",col.main="darkmagenta",main="Boxplot of first weekend USA")
+istogramma.first.weekend.USA=hist(Opening.weekend.USA,probability=TRUE,col="darkmagenta",col.main="darkmagenta",breaks=10,main="Histogram of first weekend USA")
+
+par(mfrow=c(1,1))
+#boxplot Budget film marvel
+
+boxplot.first.weekend.USA.Marvel=boxplot(first.weekend.Marvel,col="red",col.main="red",main="Boxplot of first weekend in USA of Marvel")
+
+#istogramma Budget film marvel
+istogramma.first.weekend.USA.Marvel=hist(first.weekend.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of first weekend in USA of Marvel")
+abline(v = median(first.weekend.Marvel),lwd = 2)
+
+# affianco boxplot e istogramma FIRST WEEKEND MARVEL
+par(mfrow=c(1,2))
+boxplot.first.weekend.USA.Marvel=boxplot(first.weekend.Marvel,col="red",col.main="red",main="Boxplot of f.w in USA of Marvel")
+istogramma.first.weekend.USA.Marvel=hist(first.weekend.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of f.w in USA of Marvel")
+
+
+par(mfrow=c(1,1))
+
+#boxplot Budget film DC
+
+boxplot.first.weekend.USA.DC=boxplot(first.weekend.DC,col="#666633",col.main="#666633",main="Boxplot of first weekend in USA of DC")
+
+#istogramma Budget film marvel
+istogramma.first.weekend.USA.DC=hist(first.weekend.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of first weekend in USA of DC")
+abline(v = median(first.weekend.DC),lwd = 2)
+
+
+# affianco boxplot e istogramma first weekend DC
+par(mfrow=c(1,2))
+boxplot.first.weekend.USA.DC=boxplot(first.weekend.DC,col="#666633",col.main="#666633",main="Boxplot of first weekend in USA of DC")
+istogramma.first.weekend.USA.DC=hist(first.weekend.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of first weekend in USA of DC")
+
+
+par(mfrow=c(1,1))
+
+
+```
+
+ <br>
+ 
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot della variabile Opening.weekend.USA di Marvel e DC, in modo da valutare la distribuzione avendo come riferimento la stessa scala*</span>
+
+```{r,echo=FALSE,comment=NA}
+
+
+tapply(Opening.weekend.USA,Company,summary)
+boxplot.first.weekend.USA.Marvel.vs.Dc=boxplot(Opening.weekend.USA~Company,outline=FALSE,col=c("#666633","red"))
+
+
+
+```
+
+
+
+<br>
+
+#### *Noto che le osservazioni della variabile Opening.weekend,USA si distribuiscono in maniera nettamente differente:*
+
+<br>
+
+#### -I minimi ed i massimi dei due boxplot presentano disguaglianza:
+
+>Per la prima volta il massimo valore di una variabile relativa alla company Marvel è maggiore rispetto a quello DC. Il minimo valore ,invece, appartiene sempre ad un film DC.
+
+
+#### -Il primo quartile ed il terzo  presentano una netta disparità:
+
+>Per la prima volta la variabilità per una variabile Marvel è più accentuata rispetto a quella DC
+
+<br>
+
+>### <span style="color:white"> *Creo un istorgamma che metta in relazione la variabile Opening.weekend.USA e la variabile Company*</span>
+
+
+```{r,comment=NA,echo=FALSE}
+ 
+hist(Opening.weekend.USA[Company=="Marvel"],breaks=11,col="red",xlab="Opening weekend USA",xlim=c( 5379365,357115007 ),ylim=c(0,7),main="Histogram of Budget related to Company")
+hist(Opening.weekend.USA[Company=="DC"],breaks=10,col="#666633",add=TRUE)
+
+
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica ed il profitto realizzato nel primo weekend di uscita nelle sale USA  di un determinato film*</span>
+
+```{r,comment=NA,echo=TRUE}
+aov.Opening.Weekend.USA=summary(aov(Opening.weekend.USA~Company))
+
+dev.Opening.Weekend.USA=aov.Opening.Weekend.USA[[1]]$`Sum Sq`
+
+eta.quadro.Opening.Weekend.USA=dev.Opening.Weekend.USA[1]/sum(dev.Opening.Weekend.USA) 
+eta.quadro.Opening.Weekend.USA
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo il 12.5% della variabilità totale della variabile Opening.weekend.USA*
+
+
+
+<br>
+
+>### <span style="color:white"> *Quale film ha avuto incasso più basso? Quale il più alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+summary(Opening.weekend.USA)
+film.higest.Opening.weekend.USA=MCU_vs_DCU.df$Original.Title[Opening.weekend.USA==max(Opening.weekend.USA) ]
+company.film.higest.Opening.weekend.USA=MCU_vs_DCU.df$Company[Opening.weekend.USA==max(Opening.weekend.USA)]
+
+film.lowest.Opening.weekend.USA=MCU_vs_DCU.df$Original.Title[Opening.weekend.USA==min(Opening.weekend.USA) ]
+company.film.lowest.Opening.weekend.USA=MCU_vs_DCU.df$Company[Opening.weekend.USA==min(Opening.weekend.USA) ]
+
+film.lowest.Opening.weekend.USA
+company.film.lowest.Opening.weekend.USA
+film.higest.Opening.weekend.USA
+company.film.higest.Opening.weekend.USA
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato Marvel dalle uscite di tutti i suoi film nel primo weekend di uscita negli USA?*</span>
+
+```{r,comment=NA,echo=FALSE}
+sum(first.weekend.Marvel)
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato DC dalle uscite di tutti i suoi film nel primo weekend di uscita negli USA?*</span>
+
+```{r,comment=NA,echo=FALSE}
+sum(first.weekend.DC)
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato il primo film Marvel ed il primo film DC?*</span>
+
+```{r,comment=NA,echo=FALSE}
+Opening.weekend.first.film.Marvel=first.weekend.Marvel[date.release.Marvel==min(date.release.Marvel)]
+Opening.weekend.first.film.DC=first.weekend.DC[date.release.DC==min(date.release.DC)]
+Opening.weekend.first.film.Marvel
+Opening.weekend.first.film.DC
+```
+
+<br>
+
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Opening.weekend.USA e Film.Rate.IMDB, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.Opening.weekend.USA.IMDB=MCU_vs_DCU.df[,c(4,9)]
+Mat.Opening.weekend.USA.IMDB=as.matrix(Df.Opening.weekend.USA.IMDB)
+cor.mat.Opening.weekend.USA.IMDB=cor(Mat.Opening.weekend.USA.IMDB)
+cor.mat.Opening.weekend.USA.IMDB
+Grafico.Opening.weekend.USA.IMDB=plot(Opening.weekend.USA,Film.Rate.IMDB,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+#disegno retta di regressione
+Retta.reg.Opening.weekend.USA.IMDB=lm(Film.Rate.IMDB~Opening.weekend.USA)
+summary(Retta.reg.Opening.weekend.USA.IMDB)
+abline(Retta.reg.Opening.weekend.USA.IMDB,col="#00FF00",lwd=2)
+
+
+
+#creo grafico con ggplot 
+library(ggplot2)
+ggplot.Opening.weekend.USA.IMDB=ggplot(MCU_vs_DCU.df[,c(4,9)])+geom_point(aes(x=Opening.weekend.USA,y=Film.Rate.IMDB,color=Company,size=Film.minutes))+facet_wrap(var.categorica.date.release)
+ggplot.Opening.weekend.USA.IMDB
+
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Opening.weekend.USA è abbastanza alta, pertanto mi vuol dire quanto è forte il legame simmetrico tra Film.Rate.IMDB e Opening.weekend.USA quando sono paritarie.*
+
+<br>
+
+>## **VARIABILE GROSS.USA**
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Gross.USA per dedurre il range di valori che assume*</span>
+
+```{r,comment=NA}
+MCU_vs_DCU.df[,10]
+Gross.USA=MCU_vs_DCU.df[,10]
+summary(Gross.USA)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Gross.USA categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+Gross.USA.Marvel=Gross.USA[Company=="Marvel"]
+summary(Gross.USA.Marvel)
+
+
+
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+Gross.USA.DC=Gross.USA[Company=="DC"]
+summary(Gross.USA.DC)
+
+
+```
+
+
+
+<br>
+
+>### <span style="color:white"> *Creiamo ,quindi, boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione della variabile Gross.USA generica e relativamente ai film Marvel DC.* </span>
+
+```{r,echo=FALSE,comment=NA}
+#rappresento boxplot GROSS USA
+boxplot.Gross.USA=boxplot(Gross.USA,col="gold",col.main="gold",main="Boxplot of Gross USA")
+
+# istogramma variabile GROSS USA
+istogramma.Gross.USA=hist(Gross.USA,probability=TRUE,col="gold",col.main="gold",breaks=10,main="Histogram of Gross USA")
+abline(v = median(Gross.USA),lwd = 2)
+
+# affianco boxplot e istogramma GROSS USA
+par(mfrow=c(1,2))
+boxplot.Gross.USA=boxplot(Gross.USA,col="gold",col.main="gold",main="Boxplot of Gross USA")
+istogramma.Gross.USA=hist(Gross.USA,probability=TRUE,col="gold",col.main="gold",breaks=10,main="Histogram of Gross USA")
+
+par(mfrow=c(1,1))
+#boxplot Budget film marvel
+
+boxplot.Gross.USA.Marvel=boxplot(Gross.USA.Marvel,col="red",col.main="red",main="Boxplot of Gross USA  Marvel")
+
+#istogramma Budget film marvel
+istogramma.Gross.USA.Marvel=hist(Gross.USA.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of Gross USA Marvel")
+abline(v = median(Gross.USA.Marvel),lwd = 2)
+
+# affianco boxplot e istogramma gross usa MARVEL
+par(mfrow=c(1,2))
+boxplot.Gross.USA.Marvel=boxplot(Gross.USA.Marvel,col="red",col.main="red",main="Boxplot of Gross USA  Marvel")
+istogramma.Gross.USA.Marvel=hist(Gross.USA.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of Gross USA Marvel")
+
+
+par(mfrow=c(1,1))
+
+#boxplot Budget film dc
+
+boxplot.Gross.USA.DC=boxplot(Gross.USA.DC,col="#666633",col.main="#666633",main="Boxplot of Gross USA  DC")
+
+#istogramma Budget film dc
+istogramma.Gross.USA.DC=hist(Gross.USA.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of Gross USA DC")
+abline(v = median(Gross.USA.Marvel),lwd = 2)
+
+# affianco boxplot e istogramma dc
+par(mfrow=c(1,2))
+boxplot.Gross.USA.DC=boxplot(Gross.USA.DC,col="#666633",col.main="#666633",main="Boxplot of Gross USA  DC")
+istogramma.Gross.USA.DC=hist(Gross.USA.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of Gross USA DC")
+
+
+par(mfrow=c(1,1))
+
+
+```
+
+ <br>
+ 
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot della variabile Gross.USA di Marvel e DC, in modo da valutare la distribuzione avendo come riferimento la stessa scala*</span>
+
+```{r,echo=FALSE,comment=NA}
+
+
+
+tapply(Gross.USA,Company,summary)
+boxplot.Gross.USA.Marvel.vs.Dc=boxplot(Gross.USA~Company,outline=FALSE,col=c("#666633","red"))
+
+
+```
+
+
+
+<br>
+
+#### *Noto che le osservazioni della variabile Gross.USA si distribuiscono in maniera  differente:*
+
+<br>
+
+#### -I minimi ed i massimi dei due boxplot presentano disguaglianza:
+
+>Le sservazioni di questa variabile seguono quelle della variabile precedentemente analizzata: il massimo valore della variabile Gross.USA  relativa alla company Marvel è maggiore rispetto a quello DC. Il minimo valore ,invece, appartiene sempre ad un film DC.
+
+
+#### -Il primo quartile ed il terzo  presentano una netta disparità:
+
+>La maggior parte delle osservazioni Marvel ha ottenuto maggior Gross negli USA rispetto a quelle DC.
+
+
+<br>
+
+>### <span style="color:white">*Affianco i boxplot della variabile Gross.USA di Marvel e DC e della variabile Opening.weeked.USA di Marvel e DC*</span>
+
+```{r,echo=FALSE,comment=NA}
+
+par(mfrow=c(1,2))
+tapply(Opening.weekend.USA,Company,summary)
+boxplot.first.weekend.USA.Marvel.vs.Dc=boxplot(Opening.weekend.USA~Company,outline=FALSE,col=c("#666633","red"))
+tapply(Gross.USA,Company,summary)
+boxplot.Gross.USA.Marvel.vs.Dc=boxplot(Gross.USA~Company,outline=FALSE,col=c("#666633","red"))
+
+par(mfrow=c(1,1))
+
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Creo un istorgamma che metta in relazione la variabile Gross.USA e la variabile Company*</span>
+
+
+```{r,comment=NA,echo=FALSE}
+ hist(Gross.USA[Company=="Marvel"],breaks=11,col="red",xlab="Gross USA",xlim=c(  10547117 ,858373000  ),ylim=c(0,7),main="Histogram of Gross related to Company")
+hist(Gross.USA[Company=="DC"],breaks=10,col="#666633",add=TRUE)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica ed il profitto realizzato negli USA da un determinato film*</span>
+
+```{r,comment=NA,echo=TRUE}
+aov.Gross.USA=summary(aov(Gross.USA~Company))
+
+dev.Gross.USA=aov.Gross.USA[[1]]$`Sum Sq`
+
+eta.quadro.Gross.USA=dev.Gross.USA[1]/sum(dev.Gross.USA) 
+eta.quadro.Gross.USA
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo il 10% della variabilità totale della variabile Gross.USA*
+
+
+
+<br>
+
+>### <span style="color:white"> *Quale film ha avuto incasso più basso? Quale il più alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+summary(Gross.USA)
+film.higest.Gross.USA=MCU_vs_DCU.df$Original.Title[Gross.USA==max(Gross.USA) ]
+company.film.higest.Gross.USA=MCU_vs_DCU.df$Company[Gross.USA==max(Gross.USA)]
+
+film.lowest.Gross.USA=MCU_vs_DCU.df$Original.Title[Gross.USA==min(Gross.USA) ]
+company.film.lowest.Gross.USA=MCU_vs_DCU.df$Company[Gross.USA==min(Gross.USA) ]
+film.lowest.Gross.USA
+company.film.lowest.Gross.USA
+film.higest.Gross.USA
+company.film.higest.Gross.USA
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato Marvel dalle uscite di tutti i suoi film negli USA?*</span>
+
+```{r,comment=NA,echo=FALSE}
+sum(Gross.USA.Marvel)
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato DC dalle uscite di tutti i suoi film ngli USA?*</span>
+
+```{r,comment=NA,echo=FALSE}
+sum(Gross.USA.DC)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato il primo film Marvel ed il primo film DC?*</span>
+
+```{r,comment=NA,echo=FALSE}
+Gross.first.film.Marvel.USA=Gross.USA.Marvel[date.release.Marvel==min(date.release.Marvel)]
+Gross.first.film.DC.USA=Gross.USA.DC[date.release.DC==min(date.release.DC)]
+Gross.first.film.Marvel.USA
+Gross.first.film.DC.USA
+```
+
+<br>
+
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Gross.USA e Film.Rate.IMDB, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+#misuro la connessione tra la variabile quantitativa Gross e IMDB
+
+Df.Gross.USA.IMDB=MCU_vs_DCU.df[,c(4,10)]
+Mat.Gross.USA.IMDB=as.matrix(Df.Gross.USA.IMDB)
+cor.mat.Gross.USA.IMDB=cor(Mat.Gross.USA.IMDB)
+cor.mat.Gross.USA.IMDB
+Grafico.Gross.IMDB=plot(Gross.USA,Film.Rate.IMDB,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+#disegno retta di regressione
+Retta.reg.Gross.USA.IMDB=lm(Film.Rate.IMDB~Gross.USA)
+summary(Retta.reg.Gross.USA.IMDB)
+abline(Retta.reg.Gross.USA.IMDB,col="#00FF00",lwd=2)
+library(ggplot2)
+ggplot.Gross.USA.IMDB=ggplot(MCU_vs_DCU.df[,c(4,10)])+geom_point(aes(x=Gross.USA,y=Film.Rate.IMDB,color=Company,size=(Film.Rate.Metascore/10)/Film.Rate.IMDB))+facet_wrap(var.categorica.date.release)
+ggplot.Gross.USA.IMDB
+
+
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Opening.weekend.USA è alta, pertanto mi vuol dire quanto è forte il legame simmetrico tra  Film.Rate.IMDB e Gross.USA quando sono paritarie*
+
+
+<br>
+
+
+
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Gross.USA e Opening.weekend.USA, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+#misuro la connessione tra la variabile quantitativa Gross e Opening weekend
+
+Df.Gross.USA.Opening.weekend=MCU_vs_DCU.df[,c(9,10)]
+Mat.Gross.USA.Opening.weekend=as.matrix(Df.Gross.USA.Opening.weekend)
+cor.mat.Gross.USA.Opening.weekend=cor(Mat.Gross.USA.Opening.weekend)
+cor.mat.Gross.USA.Opening.weekend
+Grafico.Gross.Opening.weekend=plot(Gross.USA,Opening.weekend.USA,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+#disegno retta di regressione
+Retta.reg.Gross.USA.Opening.weekend=lm(Opening.weekend.USA~Gross.USA)
+summary(Retta.reg.Gross.USA.Opening.weekend)
+abline(Retta.reg.Gross.USA.Opening.weekend,col="#00FF00",lwd=2)
+
+library(ggplot2)
+ggplot.Gross.Opening.weekend.USA=ggplot(MCU_vs_DCU.df[,c(9,10)])+geom_point(aes(x=Gross.USA,y=Opening.weekend.USA,color=Company,size=(Film.Rate.Metascore/10)/Film.Rate.IMDB))+facet_wrap(var.categorica.date.release)
+
+
+ggplot.Gross.Opening.weekend.USA
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Gross.USA E Gross.USA è  altissima, pertanto mi vuol dire quanto è forte il legame simmetrico tra  Opening.weekend.USA e Gross.USA quando sono paritarie.*
+
+<br>
+
+>## **VARIABILE GROSS.WORLD**
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Gross.World per dedurre il range di valori che assume*</span>
+
+
+```{r,comment=NA}
+MCU_vs_DCU.df[,11]
+Gross.World=MCU_vs_DCU.df[,11]
+summary(Gross.World)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Analizzo il summary della  variabile Gross.World categorizzata in base alla variabile Company per dedurre il range di valori che assume.* </span>
+
+>#### Marvel
+
+```{r,echo=FALSE,comment=NA}
+Gross.World.Marvel=Gross.World[Company=="Marvel"]
+summary(Gross.World.Marvel)
+
+
+```
+
+>#### DC
+
+```{r,echo=FALSE,comment=NA}
+Gross.World.DC=Gross.World[Company=="DC"]
+summary(Gross.World.DC)
+
+
+
+```
+
+
+
+<br>
+
+>### <span style="color:white"> *Creiamo ,quindi, boxplot e istogrammi che ci facciano intuire in maniera piu chiara la distribuzione della variabile Gross.World generica e relativamente ai film Marvel DC.* </span>
+
+```{r,echo=FALSE,comment=NA}
+#rappresento boxplot GROSS WORLD
+boxplot.Gross.World=boxplot(Gross.World,col="#0099FF",col.main="#0099FF",main="Boxplot of Gross World")
+
+# istogramma variabile GROSS WORLD
+istogramma.Gross.World=hist(Gross.World,probability=TRUE,col="#0099FF",col.main="#0099FF",breaks=10,main="Histogram of Gross World")
+abline(v = median(Gross.World),lwd = 2)
+
+# affianco boxplot e istogramma GROSS WORLD
+par(mfrow=c(1,2))
+boxplot.Gross.World=boxplot(Gross.World,col="#0099FF",col.main="#0099FF",main="Boxplot of Gross World")
+istogramma.Gross.USA=hist(Gross.USA,probability=TRUE,col="#0099FF",col.main="#0099FF",breaks=10,main="Histogram of Gross World")
+
+par(mfrow=c(1,1))
+#boxplot Budget film marvel
+
+boxplot.Gross.World.Marvel=boxplot(Gross.World.Marvel,col="red",col.main="red",main="Boxplot of Gross World  Marvel")
+
+#istogramma Budget film marvel
+istogramma.Gross.World.Marvel=hist(Gross.World.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of Gross World Marvel")
+abline(v = median(Gross.World.Marvel),lwd = 2)
+
+# affianco boxplot e istogramma world MARVEL
+par(mfrow=c(1,2))
+boxplot.Gross.World.Marvel=boxplot(Gross.World.Marvel,col="red",col.main="red",main="Boxplot of Gross World  Marvel")
+istogramma.Gross.World.Marvel=hist(Gross.World.Marvel,probability=TRUE,col="red",col.main="red",breaks=11,main="Histogram of Gross World Marvel")
+
+
+par(mfrow=c(1,1))
+#boxplot Budget film dc
+
+boxplot.Gross.World.DC=boxplot(Gross.World.DC,col="#666633",col.main="#666633",main="Boxplot of Gross World  DC")
+
+#istogramma Budget film dc
+istogramma.Gross.World.DC=hist(Gross.World.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of Gross World DC")
+abline(v = median(Gross.World.Marvel),lwd = 2)
+
+# affianco boxplot e istogramma dc
+par(mfrow=c(1,2))
+boxplot.Gross.World.DC=boxplot(Gross.World.DC,col="#666633",col.main="#666633",main="Boxplot of Gross World  DC")
+istogramma.Gross.World.DC=hist(Gross.World.DC,probability=TRUE,col="#666633",col.main="#666633",breaks=11,main="Histogram of Gross World DC")
+
+
+par(mfrow=c(1,1))
+
+```
+
+<br>
+ 
+#### *E' difficile confrontare boxplot e istogrammi che si distribuiscono su scale differenti.*
+
+<br>
+
+>### <span style="color:white">*E' necessario affiancare i boxplot della variabile Gross.World di Marvel e DC, in modo da valutare la distribuzione avendo come riferimento la stessa scala*</span>
+
+```{r,echo=FALSE,comment=NA}
+
+
+
+tapply(Gross.World,Company,summary)
+boxplot.Gross.World.Marvel.vs.Dc=boxplot(Gross.World~Company,outline=FALSE,col=c("#666633","red"))
+
+```
+
+
+
+<br>
+
+#### *Noto che le osservazioni della variabile Gross.World si distribuiscono in maniera  differente:*
+
+<br>
+
+#### -I minimi ed i massimi dei due boxplot presentano disguaglianza:
+
+>Le osservazioni di questa variabile seguono quelle della variabile precedentemente analizzata: il massimo valore della variabile Gross.USA  relativa alla company Marvel è maggiore rispetto a quello DC. Il minimo valore ,invece, appartiene sempre ad un film DC.
+
+
+#### -Il primo quartile ed il terzo  presentano una netta disparità:
+
+>La maggior parte delle osservazioni Marvel ha ottenuto maggior Gross nel mondo rispetto a quelle DC.
+
+
+<br>
+
+>### <span style="color:white">*Affianco i boxplot della variabile Gross.Marvel di Marvel e DC e della variabile Gross.USA di Marvel e DC*</span>
+
+```{r,echo=FALSE,comment=NA}
+par(mfrow=c(1,3))
+tapply(Opening.weekend.USA,Company,summary)
+boxplot.first.weekend.USA.Marvel.vs.Dc=boxplot(Opening.weekend.USA~Company,outline=FALSE,col=c("#666633","red"))
+tapply(Gross.USA,Company,summary)
+boxplot.Gross.USA.Marvel.vs.Dc=boxplot(Gross.USA~Company,outline=FALSE,col=c("#666633","red"))
+tapply(Gross.World,Company,summary)
+boxplot.Gross.World.Marvel.vs.Dc=boxplot(Gross.World~Company,outline=FALSE,col=c("#666633","red"))
+
+par(mfrow=c(1,1))
+
+
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Creo un istorgamma che metta in relazione la variabile Gross.World e la variabile Company*</span>
+
+
+```{r,comment=NA,echo=FALSE}
+hist(Gross.World[Company=="Marvel"],breaks=11,col="red",xlab="Gross World",xlim=c(  1.090e+07 ,2.798e+09  ),ylim=c(0,7),main="Histogram of Gross related to Company")
+hist(Gross.World[Company=="DC"],breaks=10,col="#666633",add=TRUE)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Misuro quindi la connessione che c'è tra l'appartenenza ad una determinata casa cinematografica ed il profitto realizzato nel mondo da un determinato film*</span>
+
+```{r,comment=NA,echo=TRUE}
+aov.Gross.World=summary(aov(Gross.World~Company))
+
+dev.Gross.World=aov.Gross.World[[1]]$`Sum Sq`
+
+eta.quadro.Gross.World=dev.Gross.World[1]/sum(dev.Gross.World) 
+eta.quadro.Gross.World
+```
+
+<br>
+
+#### *Si deduce che la dipendenza in media dalla variabile Company spiega solo il 12.3% della variabilità totale della variabile Gross.World*
+
+
+
+<br>
+
+>### <span style="color:white"> *Quale film ha avuto incasso più basso? Quale il più alto?*</span>
+
+```{r,comment=NA,echo=FALSE}
+
+summary(Gross.World)
+film.higest.Gross.World=MCU_vs_DCU.df$Original.Title[Gross.World==max(Gross.World) ]
+company.film.higest.Gross.World=MCU_vs_DCU.df$Company[Gross.World==max(Gross.World)]
+
+film.lowest.Gross.World=MCU_vs_DCU.df$Original.Title[Gross.World==min(Gross.World) ]
+company.film.lowest.Gross.World=MCU_vs_DCU.df$Company[Gross.World==min(Gross.World) ]
+film.lowest.Gross.World
+company.film.lowest.Gross.World
+film.higest.Gross.World
+company.film.higest.Gross.World
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato Marvel dalle uscite di tutti i suoi film nel mondo?*</span>
+
+```{r,comment=NA,echo=FALSE}
+sum(Gross.World.Marvel)
+
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato DC dalle uscite di tutti i suoi film nel mondo?*</span>
+
+```{r,comment=NA,echo=FALSE}
+sum(Gross.World.DC)
+
+
+```
+
+<br>
+
+>### <span style="color:white"> *Quanto ha incassato il primo film Marvel ed il primo film DC?*</span>
+
+```{r,comment=NA,echo=FALSE}
+Gross.first.film.Marvel.World=Gross.World.Marvel[date.release.Marvel==min(date.release.Marvel)]
+Gross.first.film.DC.World=Gross.World.DC[date.release.DC==min(date.release.DC)]
+
+Gross.first.film.Marvel.World
+Gross.first.film.DC.World
+
+```
+
+<br>
+
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Gross.USA e Film.Rate.IMDB, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.Gross.World.IMDB=MCU_vs_DCU.df[,c(4,11)]
+Mat.Gross.World.IMDB=as.matrix(Df.Gross.World.IMDB)
+cor.mat.Gross.World.IMDB=cor(Mat.Gross.World.IMDB)
+cor.mat.Gross.World.IMDB
+Grafico.Gross.World.IMDB=plot(Gross.World,Film.Rate.IMDB,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+#disegno retta di regressione
+Retta.reg.Gross.World.IMDB=lm(Film.Rate.IMDB~Gross.World)
+summary(Retta.reg.Gross.World.IMDB)
+abline(Retta.reg.Gross.World.IMDB,col="#00FF00",lwd=2)
+library(ggplot2)
+ggplot.Gross.World.IMDB=ggplot(MCU_vs_DCU.df[,c(4,11)])+geom_point(aes(x=Gross.World,y=Film.Rate.IMDB,color=Company,size=(Film.Rate.Metascore/10)/Film.Rate.IMDB))+facet_wrap(var.categorica.date.release)
+ggplot.Gross.World.IMDB
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Film.Rate.IMDB E Gross.World è abbastanza alta, pertanto mi vuol dire quanto è forte il legame simmetrico tra Film.Rate.IMDB e Gross.World quando sono paritarie.*
+
+<br>
+
+
+
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Gross.World e Opening.weekend.USA, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.Gross.World.Opening.weekend=MCU_vs_DCU.df[,c(9,11)]
+Mat.Gross.World.Opening.weekend=as.matrix(Df.Gross.World.Opening.weekend)
+cor.mat.Gross.World.Opening.weekend=cor(Mat.Gross.World.Opening.weekend)
+cor.mat.Gross.World.Opening.weekend
+Grafico.Gross.World.Opening.weekend=plot(Gross.World,Opening.weekend.USA,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+#disegno retta di regressione
+Retta.reg.Gross.World.Opening.weekend=lm(Opening.weekend.USA~Gross.World)
+summary(Retta.reg.Gross.World.Opening.weekend)
+abline(Retta.reg.Gross.World.Opening.weekend,col="#00FF00",lwd=2)
+library(ggplot2)
+ggplot.Gross.World.Opening.weekend=ggplot(MCU_vs_DCU.df[,c(9,11)])+geom_point(aes(x=Gross.World,y=Opening.weekend.USA,color=Company,size=(Film.Rate.Metascore/10)/Film.Rate.IMDB))+facet_wrap(var.categorica.date.release)
+ggplot.Gross.World.Opening.weekend
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Opening.weekend.USA E Gross.World è altissima, pertanto mi vuol dire quanto è forte il legame simmetrico tra Opening.weekend.USA e Gross.World quando sono paritarie*
+
+<br>
+
+
+
+
+>### <span style="color:white"> *Verifico la correlazione tra la variabile Gross.World e Gross.USA, realizzando il grafico di dispersione.*</span>
+
+```{r,comment=NA,echo=FALSE}
+Df.Gross.World.USA=MCU_vs_DCU.df[,c(10,11)]
+Mat.Gross.World.USA=as.matrix(Df.Gross.World.USA)
+cor.mat.Gross.World.USA=cor(Mat.Gross.World.USA)
+cor.mat.Gross.World.USA
+Grafico.Gross.World.USA=plot(Gross.World,Gross.USA ,pch=Company,main="Grafico di dispersione" ,col=Company.1)
+
+#disegno retta di regressione
+Retta.reg.Gross.World.USA=lm(Gross.USA~Gross.World)
+summary(Retta.reg.Gross.World.USA)
+abline(Retta.reg.Gross.World.USA,col="#00FF00",lwd=2)
+
+#creo grafico con ggplot 
+
+ggplot.Gross.World.USA=ggplot(MCU_vs_DCU.df[,c(10,11)])+geom_point(aes(x=Gross.World,y=Gross.USA,color=Company,size=(Film.Rate.Metascore/10)/Film.Rate.IMDB))+facet_wrap(var.categorica.date.release)
+
+
+```
+
+<br>
+
+#### *Si nota,quindi, che la correlazione tra Gross.USA E Gross.World è altissima, pertanto mi vuol dire quanto è forte il legame simmetrico tra Gross.USA e Gross.World quando sono paritarie.*
+
+<br>
+
+>### <span style="color:white"> *Realizzo il grafico degli andamenti dei profitti nel mondo categorizzati per casa cinematografica e per anno di uscita.*</span>
+
+```{r,comment=NA,echo=FALSE}
+library(ggplot2)
+ggplot.Gross.World.Company=ggplot(MCU_vs_DCU.df[,c(3,11)])+geom_col(aes(x=Company,y=Gross.World,fill=Company))+facet_wrap(date.release)
+ggplot.Gross.World.Company
+
+```
+
+<br>
+
+#### *Nel corso del tempo l'andamento dei ricavi totali dei film Marvel ha avuto un andameto di crescita esponenziale , mentre quello dei film DC è cresciuto fino al 2016, rimanendo ,successivamente, costante o addirittura andando in diminuzione.*
